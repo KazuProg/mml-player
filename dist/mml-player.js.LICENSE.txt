@@ -3,9 +3,3 @@ object-assign
 (c) Sindre Sorhus
 @license MIT
 */
-
-/*!
- * strip-comments <https://github.com/jonschlinkert/strip-comments>
- * Copyright (c) 2014-present, Jon Schlinkert.
- * Released under the MIT License.
- */

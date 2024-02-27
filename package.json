@@ -24,8 +24,7 @@
   "homepage": "https://kazuprog.work/prog/js/mml-player/",
   "dependencies": {
     "mml-iterator": "^1.1.0",
-    "seq-emitter": "^1.2.0",
-    "strip-comments": "^2.0.1"
+    "seq-emitter": "^1.2.0"
   },
   "devDependencies": {
     "webpack": "^5.90.3",
