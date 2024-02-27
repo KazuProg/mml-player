@@ -1,0 +1,32 @@
+{
+  "name": "mml-player",
+  "version": "1.0.0",
+  "description": "MML(Music Macro Language) player for Web Audio API",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KazuProg/mml-player.git"
+  },
+  "keywords": [
+    "WebAudioAPI",
+    "MML",
+    "music",
+    "Player"
+  ],
+  "author": "KazuProg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KazuProg/mml-player/issues"
+  },
+  "homepage": "https://kazuprog.work/prog/js/mml-player/",
+  "dependencies": {
+    "mml-emitter": "^1.1.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4"
+  }
+}

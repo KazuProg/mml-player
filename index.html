@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script src="./dist/mml-player.js"></script>
+  <title>MMLPlayer</title>
+  <script>
+    var player = null;
+
+    function play() {
+      let mml = document.querySelector("#mml").value;
+
+      player = new MMLPlayer();
+      player.onNote = e => {
+        console.log("NOTE: " + JSON.stringify(e));
+      }
+
+      player.play(mml);
+    }
+
+    function stop() {
+      if (player) {
+        player.stop()
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <h1>MMLPlayer</h1>
+  <textarea id="mml">cde2</textarea><br>
+  <button onclick="play()">Play</button>
+  <button onclick="stop()">Stop</button>
+</body>
+
+</html>
