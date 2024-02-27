@@ -51,7 +51,7 @@ document.querySelector("#playbtn").addEventListener('click', e => {
   - e.g. `c e-8. g16`
 - __[__ ([__cdefgab__][__-+__]?|[__<>__])+ __]__(\\d+)?\\.*
   - chord (default: l)
-  - e.g. `[ >g<ce ]2 [ >gb<d ]2 [ >g<ce ]1`
+  - e.g. `[ <g>ce ]2 [ <gb>d ]2 [ <g>ce ]1`
 - __r__(\\d+)?\\.*
   - rest (default: l)
   - e.g. `l16 crcc crcc crccr crcc`
@@ -73,10 +73,10 @@ document.querySelector("#playbtn").addEventListener('click', e => {
   - e.g. `o4 ceg o5 c`
 - __>__(\\d+)?
   - octave up (default: 1)
-  - e.g. `ceg < c`
+  - e.g. `ceg > c`
 - __<__(\\d+)?
   - octave down (default: 1)
-  - e.g. `c > gec`
+  - e.g. `c < gec`
 
 ### Control
 - __t__(\\d+)?
@@ -87,11 +87,11 @@ document.querySelector("#playbtn").addEventListener('click', e => {
   - e.g. `v75 c v50 e v25 g`
 - __$__
   - infinite loop
-  - e.g. `l2 $ [fa<ce] [gb<d] [egb<d] [ea<c]`
+  - e.g. `l2 $ [fa>ce] [gb>d] [egb>d] [ea>c]`
 - __/:__ ... __|__ ... __:/__(\\d+)?
   - loop (default: 2)
   - commands after __|__ are skipped in the last loop
-  - e.g. `l2 /: [fa<ce] [gb<d] [egb<d] | [ea<c] :/4 [eg<c]`
+  - e.g. `l2 /: [fa>ce] [gb>d] [egb>d] | [ea>c] :/4 [eg>c]`
 
 ## See Also
 - MML Emitter
