@@ -9,6 +9,8 @@
     var player = null;
 
     function play() {
+      stop();
+
       let mml = document.querySelector("#mml").value;
 
       player = new MMLPlayer();
@@ -21,7 +23,7 @@
 
     function stop() {
       if (player) {
-        player.stop()
+        player.stop();
       }
     }
   </script>
