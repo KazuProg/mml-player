@@ -1,4 +1,4 @@
-import MMLEmitter from "mml-emitter";
+import MMLEmitter from "./MMLEmitter";
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
