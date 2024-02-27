@@ -21,37 +21,37 @@ class MMLParser {
 
   advance() {
     switch (this.scanner.peek()) {
-    case "c":
-    case "d":
-    case "e":
-    case "f":
-    case "g":
-    case "a":
-    case "b":
-      return this.readNote();
-    case "[":
-      return this.readChord();
-    case "r":
-      return this.readRest();
-    case "o":
-      return this.readOctave();
-    case ">":
-      return this.readOctaveShift(+1);
-    case "<":
-      return this.readOctaveShift(-1);
-    case "l":
-      return this.readNoteLength();
-    case "q":
-      return this.readNoteQuantize();
-    case "v":
-      return this.readNoteVelocity();
-    case "t":
-      return this.readTempo();
-    case "$":
-      return this.readInfiniteLoop();
-    case "/":
-      return this.readLoop();
-    default:
+      case "c":
+      case "d":
+      case "e":
+      case "f":
+      case "g":
+      case "a":
+      case "b":
+        return this.readNote();
+      case "[":
+        return this.readChord();
+      case "r":
+        return this.readRest();
+      case "o":
+        return this.readOctave();
+      case ">":
+        return this.readOctaveShift(+1);
+      case "<":
+        return this.readOctaveShift(-1);
+      case "l":
+        return this.readNoteLength();
+      case "q":
+        return this.readNoteQuantize();
+      case "v":
+        return this.readNoteVelocity();
+      case "t":
+        return this.readTempo();
+      case "$":
+        return this.readInfiniteLoop();
+      case "/":
+        return this.readLoop();
+      default:
       // do nothing
     }
     this.scanner.throwUnexpectedToken();
@@ -60,7 +60,7 @@ class MMLParser {
   readNote() {
     return {
       type: Syntax.Note,
-      noteNumbers: [ this._readNoteNumber(0) ],
+      noteNumbers: [this._readNoteNumber(0)],
       noteLength: this._readLength()
     };
   }
@@ -74,25 +74,25 @@ class MMLParser {
 
     this._readUntil("]", () => {
       switch (this.scanner.peek()) {
-      case "c":
-      case "d":
-      case "e":
-      case "f":
-      case "g":
-      case "a":
-      case "b":
-        noteList.push(this._readNoteNumber(offset));
-        break;
-      case ">":
-        this.scanner.next();
-        offset += 12;
-        break;
-      case "<":
-        this.scanner.next();
-        offset -= 12;
-        break;
-      default:
-        this.scanner.throwUnexpectedToken();
+        case "c":
+        case "d":
+        case "e":
+        case "f":
+        case "g":
+        case "a":
+        case "b":
+          noteList.push(this._readNoteNumber(offset));
+          break;
+        case ">":
+          this.scanner.next();
+          offset += 12;
+          break;
+        case "<":
+          this.scanner.next();
+          offset -= 12;
+          break;
+        default:
+          this.scanner.throwUnexpectedToken();
       }
     });
 
@@ -128,7 +128,7 @@ class MMLParser {
 
     return {
       type: Syntax.OctaveShift,
-      direction: direction|0,
+      direction: direction | 0,
       value: this._readArgument(/\d+/)
     };
   }
