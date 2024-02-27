@@ -5,7 +5,7 @@ const DefaultParams = require("./DefaultParams");
 const MMLParser = require("./MMLParser");
 const ITERATOR = typeof Symbol !== "undefined" ? Symbol.iterator : "@@iterator";
 
- class MMLIterator {
+class MMLIterator {
   constructor(source) {
     this.source = source;
 
@@ -14,7 +14,7 @@ const ITERATOR = typeof Symbol !== "undefined" ? Symbol.iterator : "@@iterator";
     this._processedTime = 0;
     this._iterator = null;
     this._octave = DefaultParams.octave;
-    this._noteLength = [ DefaultParams.length ];
+    this._noteLength = [DefaultParams.length];
     this._velocity = DefaultParams.velocity;
     this._quantize = DefaultParams.quantize;
     this._tempo = DefaultParams.tempo;
@@ -82,15 +82,15 @@ const ITERATOR = typeof Symbol !== "undefined" ? Symbol.iterator : "@@iterator";
 
     noteLength = noteLength.map((elem) => {
       switch (elem) {
-      case null:
-        elem = prev;
-        break;
-      case 0:
-        elem = (dotted *= 2);
-        break;
-      default:
-        prev = dotted = elem;
-        break;
+        case null:
+          elem = prev;
+          break;
+        case 0:
+          elem = (dotted *= 2);
+          break;
+        default:
+          prev = dotted = elem;
+          break;
       }
 
       const length = elem !== null ? elem : DefaultParams.length;
