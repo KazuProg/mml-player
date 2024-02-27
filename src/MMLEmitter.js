@@ -1,7 +1,6 @@
 import SeqEmitter from "seq-emitter";
 import MMLIterator from "mml-iterator";
 import reverseOctave from "./reverseOctave";
-import stripComments from "strip-comments";
 
 export default class MMLEmitter extends SeqEmitter {
   constructor(source, config = {}) {
@@ -10,7 +9,7 @@ export default class MMLEmitter extends SeqEmitter {
     }
 
     let MMLIteratorClass = config.MMLIterator || MMLIterator;
-    let tracks = stripComments(source).split(";");
+    let tracks = source.replace(/(\/\/.*)/g, "").split(";");
 
     tracks = tracks.filter(source => !!source.trim());
     tracks = tracks.map(track => new MMLIteratorClass(track, config));
