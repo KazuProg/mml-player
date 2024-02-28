@@ -7,6 +7,7 @@ const NOTE_INDEXES = { c: 0, d: 2, e: 4, f: 5, g: 7, a: 9, b: 11 };
 class MMLParser {
   constructor(source) {
     this.scanner = new Scanner(source);
+    this.ignoreError = true;
   }
 
   parse() {
@@ -15,6 +16,8 @@ class MMLParser {
     this._readUntil(";", () => {
       result = result.concat(this.advance());
     });
+
+    result = result.filter(v => v != null);
 
     return result;
   }
@@ -54,7 +57,9 @@ class MMLParser {
       default:
       // do nothing
     }
-    this.scanner.throwUnexpectedToken();
+
+    this._parseError();
+    return null;
   }
 
   readNote() {
@@ -92,7 +97,7 @@ class MMLParser {
           offset -= 12;
           break;
         default:
-          this.scanner.throwUnexpectedToken();
+          this._parseError();
       }
     });
 
@@ -287,6 +292,15 @@ class MMLParser {
     }
 
     return result;
+  }
+
+  _parseError() {
+    if (this.ignoreError) {
+      console.warn(`Unexpected token: ${this.scanner.next()}`);
+      this._readArgument(/\d+/);
+    } else {
+      this.scanner.throwUnexpectedToken();
+    }
   }
 }
 
