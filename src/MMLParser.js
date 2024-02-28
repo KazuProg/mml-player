@@ -230,8 +230,8 @@ class MMLParser {
   }
 
   _readAccidental() {
-    if (this.scanner.match("+")) {
-      return +1 * this.scanner.scan(/\++/).length;
+    if (this.scanner.match("+") || this.scanner.match("#")) {
+      return +1 * this.scanner.scan(/(\+|#)+/).length;
     }
     if (this.scanner.match("-")) {
       return -1 * this.scanner.scan(/\-+/).length;
