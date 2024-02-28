@@ -42,6 +42,10 @@ class MMLParser {
         return this.readOctaveShift(+1);
       case "<":
         return this.readOctaveShift(-1);
+      case "`":
+        return this._readOctaveShiftOnce(+1);
+      case "\"":
+        return this._readOctaveShiftOnce(-1);
       case "l":
         return this.readNoteLength();
       case "q":
@@ -62,10 +66,10 @@ class MMLParser {
     return null;
   }
 
-  readNote() {
+  readNote(offset = 0) {
     return {
       type: Syntax.Note,
-      noteNumbers: [this._readNoteNumber(0)],
+      noteNumbers: [this._readNoteNumber(offset)],
       noteLength: this._readLength()
     };
   }
@@ -76,6 +80,7 @@ class MMLParser {
     const noteList = [];
 
     let offset = 0;
+    let offsetOnce = 0;
 
     this._readUntil("]", () => {
       switch (this.scanner.peek()) {
@@ -86,7 +91,8 @@ class MMLParser {
         case "g":
         case "a":
         case "b":
-          noteList.push(this._readNoteNumber(offset));
+          noteList.push(this._readNoteNumber(offset + offsetOnce));
+          offsetOnce = 0;
           break;
         case ">":
           this.scanner.next();
@@ -95,6 +101,14 @@ class MMLParser {
         case "<":
           this.scanner.next();
           offset -= 12;
+          break;
+        case "`":
+          this.scanner.next();
+          offsetOnce += 12;
+          break;
+        case "\"":
+          this.scanner.next();
+          offsetOnce -= 12;
           break;
         default:
           this._parseError();
@@ -221,6 +235,29 @@ class MMLParser {
     const num = this.scanner.scan(matcher);
 
     return num !== null ? +num : null;
+  }
+
+  _readOctaveShiftOnce(direction, value = 0) {
+    this.scanner.expect(/`|"/);
+
+    value += direction;
+
+    switch (this.scanner.peek()) {
+      case "c":
+      case "d":
+      case "e":
+      case "f":
+      case "g":
+      case "a":
+      case "b":
+        return this.readNote(value * 12);
+      case "`":
+        return this._readOctaveShiftOnce(+1, value);
+      case "\"":
+        return this._readOctaveShiftOnce(-1, value);
+      default:
+        this._parseError();
+    }
   }
 
   _readNoteNumber(offset) {
