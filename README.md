@@ -46,10 +46,10 @@ document.querySelector("#playbtn").addEventListener('click', e => {
 
 ## MML Syntax
 ### NoteEvent
-- [__cdefgab__][__-+#__]?(\\d+)?\\.*
+- ([__`"__]+)?[__cdefgab__][__-+#__]?(\\d+)?\\.*
   - note on (default: l)
   - e.g. `c e-8. g16`
-- __[__ ([__cdefgab__][__-+#__]?|[__<>__])+ __]__(\\d+)?\\.*
+- __[__ (([__`"__]+)?[cdefgab][__-+#__]?|[__<>__])+ __]__(\\d+)?\\.*
   - chord (default: l)
   - e.g. `[ <g>ce ]2 [ <gb>d ]2 [ <g>ce ]1`
 - __r__(\\d+)?\\.*
