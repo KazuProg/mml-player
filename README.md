@@ -47,9 +47,32 @@ document.querySelector("#playbtn").addEventListener('click', e => {
 ## MML Syntax
 ### NoteEvent
 - ([__`"__]+)?[__cdefgab__][__-+#__]?(\\d+)?\\.*
-  - note on (default: l)
-  - e.g. `c e-8. g16`
-- __[__ (([__`"__]+)?[cdefgab][__-+#__]?|[__<>__])+ __]__(\\d+)?\\.*
+  - note on
+  - ([__`"__]+)?
+    - octave change
+    - `+
+      - octave up
+      - e.g. ``ceg `c egc``
+    - "+
+      - octave down
+      - e.g. `edc "b c`
+  - [__cdefgab__]
+    - musical scales
+    - e.g. `c d e`
+  - [__-+#__]?
+    - semitone change
+    - __\-__
+      - lower a semitone
+    - [__+#__]
+      - raise a semitone
+    - e.g. `c c+ d d# e e- d d- c`
+  - (\\d+)?
+    - note length (default: l)
+    - e.g. `c4 c8 c8 c2`
+  - \\.*
+    - dotted note
+    - e.g. ``c e8. g16 `c2``
+- __\\[__ (([`"]+)?[cdefgab][-+#]?|[__<>__])+ __\\]__(\\d+)?\\.*
   - chord (default: l)
   - e.g. `[ <g>ce ]2 [ <gb>d ]2 [ <g>ce ]1`
 - __r__(\\d+)?\\.*
