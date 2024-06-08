@@ -52,20 +52,27 @@ export default class MMLPlayer {
       return;
     }
     const t0 = note.playbackTime;
-    const t1 = t0 + note.duration * (note.quantize / 100);
-    const t2 = t1 + 0.1;
+    let t1 = t0
+    let t2 = note.duration;
     const vol = note.velocity / 128;
     const osc = audioContext.createOscillator();
     const amp = audioContext.createGain();
 
-    osc.frequency.value = mtof(note.noteNumber);
+    osc.frequency.setValueAtTime(mtof(note.noteNumber), t0);
+    for (let i = 0; i < note.slur.length; i++) {
+      t1 += t2
+      t2 = note.slur[i].duration;
+      osc.frequency.exponentialRampToValueAtTime(mtof(note.slur[i].noteNumber), t1);
+    }
+
+    t2 = t1 + t2 * (note.quantize / 100);
     osc.start(t0);
     osc.stop(t2);
     osc.connect(amp);
 
     amp.gain.setValueAtTime(vol, t0);
-    amp.gain.setValueAtTime(vol, t1);
-    amp.gain.exponentialRampToValueAtTime(1e-3, t2);
+    amp.gain.setValueAtTime(vol, t2);
+    amp.gain.exponentialRampToValueAtTime(1e-3, t2 + 0.1);
     amp.connect(audioContext.destination);
 
     if (typeof this.onNote === "function") {

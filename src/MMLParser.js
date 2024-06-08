@@ -70,7 +70,8 @@ class MMLParser {
     return {
       type: Syntax.Note,
       noteNumbers: [this._readNoteNumber(offset)],
-      noteLength: this._readLength()
+      noteLength: this._readLength(),
+      isSlur: this._readSlur()
     };
   }
 
@@ -311,6 +312,10 @@ class MMLParser {
     }
 
     return null;
+  }
+
+  _readSlur() {
+    return this.scanner.scan(/&+/) != null
   }
 
   _readLoopExit() {

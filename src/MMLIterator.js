@@ -77,6 +77,10 @@ class MMLIterator {
       noteLength = this._noteLength.concat(noteLength.slice(1));
     }
 
+    if (noteLength[0] === 0) {
+      return 0;
+    }
+
     let prev = null;
     let dotted = 0;
 
@@ -115,8 +119,28 @@ class MMLIterator {
 
     this._processedTime = this._processedTime + duration;
 
+    let slur = [];
+
+    while (command.isSlur) {
+      command = this._forward(true);
+
+      if (command.type != Syntax.Note || command.noteNumbers.length != 1) {
+        throw new SyntaxError(`Only single notes after '&', not rests or chords.`);
+      }
+
+      const duration2 = this._calcDuration(command.noteLength);
+
+      slur.push({
+        time: this._processedTime,
+        duration: duration2,
+        noteNumber: this._calcNoteNumber(command.noteNumbers[0])
+      });
+
+      this._processedTime = this._processedTime + duration2;
+    }
+
     return arrayToIterator(noteNumbers.map((noteNumber) => {
-      return { type, time, duration, noteNumber, velocity, quantize };
+      return { type, time, duration, noteNumber, velocity, quantize, slur };
     }));
   }
 

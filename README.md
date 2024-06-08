@@ -46,7 +46,7 @@ document.querySelector("#playbtn").addEventListener('click', e => {
 
 ## MML Syntax
 ### NoteEvent
-- ([__`"__]+)?[__cdefgab__][__-+#__]?(\\d+)?\\.*
+- ([__`"__]+)?[__cdefgab__][__-+#__]?(\\d+)?\\.*(&{note on})?
   - note on
   - ([__`"__]+)?
     - octave change
@@ -72,6 +72,9 @@ document.querySelector("#playbtn").addEventListener('click', e => {
   - \\.*
     - dotted note
     - e.g. ``c e8. g16 `c2``
+  - __&__[cdefgab][__-+#__]?(\\d+)?\\.*
+    - slur
+    - e.g. ``"c&`c2``
 - __\\[__ (([`"]+)?[cdefgab][-+#]?|[__<>__])+ __\\]__(\\d+)?\\.*
   - chord (default: l)
   - e.g. `[ <g>ce ]2 [ <gb>d ]2 [ <g>ce ]1`
