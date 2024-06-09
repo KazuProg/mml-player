@@ -18,6 +18,7 @@ class MMLIterator {
     this._velocity = DefaultParams.velocity;
     this._quantize = DefaultParams.quantize;
     this._tempo = DefaultParams.tempo;
+    this._key = DefaultParams.key;
     this._infiniteLoopIndex = -1;
     this._loopStack = [];
     this._done = false;
@@ -106,7 +107,7 @@ class MMLIterator {
   }
 
   _calcNoteNumber(noteNumber) {
-    return noteNumber + this._octave * 12 + 12;
+    return noteNumber + this._octave * 12 + 12 + this._key;
   }
 
   [Syntax.Note](command) {
@@ -176,6 +177,10 @@ class MMLIterator {
 
   [Syntax.Tempo](command) {
     this._tempo = command.value !== null ? command.value : DefaultParams.tempo;
+  }
+
+  [Syntax.KeyChange](command) {
+    this._key = command.value !== null ? this._key + command.value : DefaultParams.key;
   }
 
   [Syntax.InfiniteLoop]() {

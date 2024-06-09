@@ -103,6 +103,9 @@ document.querySelector("#playbtn").addEventListener('click', e => {
 - __<__(\\d+)?
   - octave down (default: 1)
   - e.g. `c < gec`
+- __k__(\+?-?\\d+)?
+  - key change (relavive value)
+  - e.g. `cde2k+1cde2`
 
 ### Control
 - __t__(\\d+)?
