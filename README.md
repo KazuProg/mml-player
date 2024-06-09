@@ -14,6 +14,18 @@ downloads:
 - `constructor(mml = null)`
 
 #### Instance methods
+- `setInst(index, inst): void`
+  - set custom instrument
+  - `index`: int
+    - instrument index (@{index})
+  - `inst`: PeriodicWave
+  - `inst`: Array
+    - the values of one cycle of the audio waveform
+    - e.g. `[1,-1]`(sine wave)
+  - `inst`: [Array, Array]
+    - the result of a Fourier transform, where you get frequency domain values from time domain value
+    - e.g. `[[0,1],[0,0]]`(sine wave)
+
 - `play(mml = null): void`
 - `stop(): void`
 
@@ -120,7 +132,9 @@ document.querySelector("#playbtn").addEventListener('click', e => {
     - 1: square wave
     - 2: sawtooth wave
     - 3: triangle wave
-  - e.g. `@0cr@1cr@2cr@3cr`
+    - 4: 25% pulse wave
+    - 5: 12.5% pulse wave
+  - e.g. `@0c @1c @2c @3c @4c @5c`
 - __p__(\\d+)?
   - panpot (default: 128)
     - 1(left) - 128(center) - 255(right)
