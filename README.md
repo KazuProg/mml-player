@@ -121,6 +121,10 @@ document.querySelector("#playbtn").addEventListener('click', e => {
     - 2: sawtooth wave
     - 3: triangle wave
   - e.g. `@0cr@1cr@2cr@3cr`
+- __p__(\\d+)?
+  - panpot (default: 128)
+    - 1(left) - 128(center) - 255(right)
+  - e.g. `p128cp1cp255c`
 - __$__
   - infinite loop
   - e.g. `l2 $ [fa>ce] [gb>d] [egb>d] [ea>c]`

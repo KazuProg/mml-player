@@ -20,6 +20,7 @@ class MMLIterator {
     this._tempo = DefaultParams.tempo;
     this._key = DefaultParams.key;
     this._instIndex = DefaultParams.instIndex;
+    this._panpot = DefaultParams.panpot;
     this._infiniteLoopIndex = -1;
     this._loopStack = [];
     this._done = false;
@@ -119,6 +120,7 @@ class MMLIterator {
     const quantize = this._quantize;
     const velocity = this._velocity;
     const instIndex = this._instIndex;
+    const panpot = this._panpot;
 
     this._processedTime = this._processedTime + duration;
 
@@ -136,14 +138,15 @@ class MMLIterator {
       slur.push({
         time: this._processedTime,
         duration: duration2,
-        noteNumber: this._calcNoteNumber(command.noteNumbers[0])
+        noteNumber: this._calcNoteNumber(command.noteNumbers[0]),
+        panpot: this._panpot
       });
 
       this._processedTime = this._processedTime + duration2;
     }
 
     return arrayToIterator(noteNumbers.map((noteNumber) => {
-      return { type, time, duration, noteNumber, velocity, quantize, slur, instIndex };
+      return { type, time, duration, noteNumber, velocity, quantize, slur, instIndex, panpot };
     }));
   }
 
@@ -187,6 +190,10 @@ class MMLIterator {
 
   [Syntax.InstChange](command) {
     this._instIndex = command.value !== null ? command.value : DefaultParams.instIndex;
+  }
+
+  [Syntax.Panpot](command) {
+    this._panpot = ((command.value !== null ? (command.value - 1) - DefaultParams.panpotRange : DefaultParams.panpot)) / DefaultParams.panpotRange;
   }
 
   [Syntax.InfiniteLoop]() {

@@ -58,6 +58,8 @@ class MMLParser {
         return this.readKeyChange();
       case "@":
         return this.readInstChange();
+      case "p":
+        return this.readPanpot();
       case "$":
         return this.readInfiniteLoop();
       case "/":
@@ -211,6 +213,15 @@ class MMLParser {
     };
   }
 
+  readPanpot() {
+    this.scanner.expect("p");
+
+    return {
+      type: Syntax.Panpot,
+      value: this._readArgument(/\d+/)
+    };
+  }
+
   readInfiniteLoop() {
     this.scanner.expect("$");
 
@@ -337,7 +348,7 @@ class MMLParser {
   }
 
   _readSlur() {
-    return this.scanner.scan(/&+/) != null
+    return this.scanner.scan(/&+/) != null;
   }
 
   _readLoopExit() {

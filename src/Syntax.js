@@ -12,5 +12,6 @@ module.exports = {
   LoopExit: "LoopExit",
   LoopEnd: "LoopEnd",
   KeyChange: "KeyChange",
-  InstChange: "InstChange"
+  InstChange: "InstChange",
+  Panpot: "Panpot"
 };
