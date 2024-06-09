@@ -46,7 +46,7 @@ document.querySelector("#playbtn").addEventListener('click', e => {
 
 ## MML Syntax
 ### NoteEvent
-- ([__`"__]+)?[__cdefgab__][__-+#__]?(\\d+)?\\.*(&{note on})?
+- ([__`"__]+)?[__cdefgab__][__-+#__]?(\\d+)?\\.*&?
   - note on
   - ([__`"__]+)?
     - octave change
@@ -72,7 +72,7 @@ document.querySelector("#playbtn").addEventListener('click', e => {
   - \\.*
     - dotted note
     - e.g. ``c e8. g16 `c2``
-  - __&__[cdefgab][__-+#__]?(\\d+)?\\.*
+  - __&__
     - slur
     - e.g. ``"c&`c2``
 - __\\[__ (([`"]+)?[cdefgab][-+#]?|[__<>__])+ __\\]__(\\d+)?\\.*
@@ -103,7 +103,7 @@ document.querySelector("#playbtn").addEventListener('click', e => {
 - __<__(\\d+)?
   - octave down (default: 1)
   - e.g. `c < gec`
-- __k__(\+?-?\\d+)?
+- __k__\(\\+|-)?\\d+
   - key change (relavive value)
   - e.g. `cde2k+1cde2`
 
@@ -114,8 +114,8 @@ document.querySelector("#playbtn").addEventListener('click', e => {
 - __v__(\\d+)?
   - velocity (default: 100)
   - e.g. `v75 c v50 e v25 g`
-- __@__(\\d+)?
-  - change instrument (default: 0)
+- __@__\\d+
+  - change instrument
     - 0: sine wave
     - 1: square wave
     - 2: sawtooth wave

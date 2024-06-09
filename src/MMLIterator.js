@@ -193,7 +193,7 @@ class MMLIterator {
   }
 
   [Syntax.Panpot](command) {
-    this._panpot = ((command.value !== null ? (command.value - 1) - DefaultParams.panpotRange : DefaultParams.panpot)) / DefaultParams.panpotRange;
+    this._panpot = command.value !== null ? ((command.value - 1) - DefaultParams.panpotRange) / DefaultParams.panpotRange : DefaultParams.panpot;
   }
 
   [Syntax.InfiniteLoop]() {

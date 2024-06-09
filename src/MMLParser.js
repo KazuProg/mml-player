@@ -198,18 +198,32 @@ class MMLParser {
   readKeyChange() {
     this.scanner.expect("k");
 
+    const value = this._readArgument(/\+?-?\d+/);
+
+    if (value == null) {
+      this._missingArgumentError('k');
+      return null;
+    }
+
     return {
       type: Syntax.KeyChange,
-      value: this._readArgument(/\+?-?\d+/)
+      value
     };
   }
 
   readInstChange() {
     this.scanner.expect("@");
 
+    const value = this._readArgument(/\d+/);
+
+    if (value == null) {
+      this._missingArgumentError('@');
+      return null;
+    }
+
     return {
       type: Syntax.InstChange,
-      value: this._readArgument(/\d+/)
+      value
     };
   }
 
@@ -375,6 +389,15 @@ class MMLParser {
       this._readArgument(/\d+/);
     } else {
       this.scanner.throwUnexpectedToken();
+    }
+  }
+
+  _missingArgumentError(command) {
+    const message = `Missing argument: ${command} requires argument.`;
+    if (this.ignoreError) {
+      console.warn(message);
+    } else {
+      throw new SyntaxError(message);
     }
   }
 }
