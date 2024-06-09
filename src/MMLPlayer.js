@@ -58,6 +58,16 @@ export default class MMLPlayer {
     const osc = audioContext.createOscillator();
     const amp = audioContext.createGain();
 
+    switch (note.instIndex) {
+      case 0: osc.type = "sine"; break;
+      case 1: osc.type = "square"; break;
+      case 2: osc.type = "sawtooth"; break;
+      case 3: osc.type = "triangle"; break;
+      default:
+        console.warn(`Unexpected inst index: ${note.instIndex}`)
+        break;
+    }
+
     osc.frequency.setValueAtTime(mtof(note.noteNumber), t0);
     for (let i = 0; i < note.slur.length; i++) {
       t1 += t2

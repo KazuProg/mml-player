@@ -5,5 +5,6 @@ module.exports = {
   velocity: 100,
   quantize: 75,
   loopCount: 2,
-  key: 0
+  key: 0,
+  instIndex: 0
 };

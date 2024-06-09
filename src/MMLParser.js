@@ -56,6 +56,8 @@ class MMLParser {
         return this.readTempo();
       case "k":
         return this.readKeyChange();
+      case "@":
+        return this.readInstChange();
       case "$":
         return this.readInfiniteLoop();
       case "/":
@@ -197,6 +199,15 @@ class MMLParser {
     return {
       type: Syntax.KeyChange,
       value: this._readArgument(/\+?-?\d+/)
+    };
+  }
+
+  readInstChange() {
+    this.scanner.expect("@");
+
+    return {
+      type: Syntax.InstChange,
+      value: this._readArgument(/\d+/)
     };
   }
 

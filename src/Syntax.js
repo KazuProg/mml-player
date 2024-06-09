@@ -11,5 +11,6 @@ module.exports = {
   LoopBegin: "LoopBegin",
   LoopExit: "LoopExit",
   LoopEnd: "LoopEnd",
-  KeyChange: "KeyChange"
+  KeyChange: "KeyChange",
+  InstChange: "InstChange"
 };

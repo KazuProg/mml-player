@@ -114,6 +114,13 @@ document.querySelector("#playbtn").addEventListener('click', e => {
 - __v__(\\d+)?
   - velocity (default: 100)
   - e.g. `v75 c v50 e v25 g`
+- __@__(\\d+)?
+  - change instrument (default: 0)
+    - 0: sine wave
+    - 1: square wave
+    - 2: sawtooth wave
+    - 3: triangle wave
+  - e.g. `@0cr@1cr@2cr@3cr`
 - __$__
   - infinite loop
   - e.g. `l2 $ [fa>ce] [gb>d] [egb>d] [ea>c]`
