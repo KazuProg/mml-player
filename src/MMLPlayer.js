@@ -113,7 +113,7 @@ export default class MMLPlayer {
     const vol = note.velocity / 128;
     const osc = audioContext.createOscillator();
     const amp = audioContext.createGain();
-    const pan = audioContext.createPanner();
+    const pan = audioContext.createStereoPanner();
 
     if (note.instIndex in instList) {
       const inst = instList[note.instIndex];
@@ -127,13 +127,13 @@ export default class MMLPlayer {
       console.warn(`Undefined inst index: ${note.instIndex}`);
     }
 
-    const panCon = new panControl(pan, note.panpot, t0);
     osc.frequency.setValueAtTime(mtof(note.noteNumber), t0);
+    pan.pan.setValueAtTime(note.panpot, t0);
     for (let i = 0; i < note.slur.length; i++) {
       t1 += t2;
       t2 = note.slur[i].duration;
       osc.frequency.exponentialRampToValueAtTime(mtof(note.slur[i].noteNumber), t1);
-      panCon.linearRampToValueAtTime(note.slur[i].panpot, t1);
+      pan.pan.linearRampToValueAtTime(note.slur[i].panpot, t1);
     }
 
     t2 = t1 + t2 * (note.quantize / 100);
@@ -151,44 +151,6 @@ export default class MMLPlayer {
     if (typeof this.onNote === "function") {
       this.onNote(note);
     }
-  }
-}
-
-class panControl {
-  #panNode;
-  #time;
-  #value;
-
-  constructor(panNode, value, time) {
-    this.#panNode = panNode;
-
-    this.#panNode.positionZ.setValueAtTime(1 - Math.abs(value), time);
-    this.#panNode.positionX.setValueAtTime(value, time);
-
-    this.#time = time;
-    this.#value = value;
-
-  }
-
-  linearRampToValueAtTime(value, time) {
-    const isZeroCrossing = (v1, v2) => v1 * v2 < 0;
-    if (isZeroCrossing(this.#value, value)) {
-      const findZeroCrossing = (t1, v1, t2, v2) => {
-        const slope = (v2 - v1) / (t2 - t1);
-        return t1 - (v1 / slope);
-      };
-
-      const centerTime = findZeroCrossing(this.#time, this.#value, time, value);
-
-      this.#panNode.positionZ.linearRampToValueAtTime(1, centerTime);
-      this.#panNode.positionX.linearRampToValueAtTime(0, centerTime);
-    }
-
-    this.#panNode.positionZ.linearRampToValueAtTime(1 - Math.abs(value), time);
-    this.#panNode.positionX.linearRampToValueAtTime(value, time);
-
-    this.#time = time;
-    this.#value = value;
   }
 }
 
