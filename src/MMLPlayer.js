@@ -62,11 +62,15 @@ const mtof = noteNumber => 440 * Math.pow(2, (noteNumber - 69) / 12);
 
 export default class MMLPlayer {
   onNote = null;
-  #mml = null;
+  #config;
   #emitter = null;
 
-  constructor(mml = null) {
-    this.#mml = typeof mml === 'string' ? mml : null;
+  constructor(config = {}) {
+    this.#config = {
+      context: audioContext,
+      mml: null,
+      ...config
+    };
   }
 
   static setInst(no, inst) {
@@ -74,14 +78,16 @@ export default class MMLPlayer {
   }
 
   play(mml = null) {
-    let _mml = typeof mml === 'string' ? mml : this.#mml;
-
-    if (_mml == null) {
-      console.error("Failed to execute 'play' on MMLPlayer: mml is null.");
-      return;
+    if (audioContext.state != 'running') {
+      throw new Error("Failed to play sound on MMLPlayer: AudioContext is not ready.");
     }
 
-    this.#emitter = new MMLEmitter(_mml, { context: audioContext });
+    mml = mml == null ? this.#config.mml : mml;
+    if (mml == null) {
+      throw new Error("Failed to execute 'play' on MMLPlayer: mml is null.");
+    }
+
+    this.#emitter = new MMLEmitter(mml, this.#config);
 
     this.#emitter.on("note", e => this.#playNote(e));
     this.#emitter.on("end:all", () => this.stop());
@@ -103,10 +109,6 @@ export default class MMLPlayer {
   }
 
   #playNote(note) {
-    if (audioContext.state != 'running') {
-      console.error("Failed to play sound on MMLPlayer: AudioContext is not ready.");
-      return;
-    }
     const t0 = note.playbackTime;
     let t1 = t0;
     let t2 = note.duration;

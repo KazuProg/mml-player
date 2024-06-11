@@ -8,7 +8,17 @@ downloads:
 
 ## API
 ### MMLPlayer
-- `constructor(mml = null)`
+- `constructor(config: object)`
+  - `config.mml: string`
+  - `config.reverseOctave: bool`
+    - reverse `<` and `>` command
+  - `config.defaultParams: object`
+    - `velocity: number`
+    - `velocityMax: number`
+    - `quantize: number`
+    - `quantizeMax: number`
+    - `instNumber: number`
+    - `panpotRange: number`
 
 #### Instance methods
 - `setInst(no, inst): void`

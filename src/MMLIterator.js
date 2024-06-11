@@ -6,21 +6,25 @@ const MMLParser = require("./MMLParser");
 const ITERATOR = typeof Symbol !== "undefined" ? Symbol.iterator : "@@iterator";
 
 class MMLIterator {
-  constructor(source) {
+  constructor(source, defaultParams) {
     this.source = source;
+    this._defaultParams = {
+      ...DefaultParams,
+      ...defaultParams
+    };
 
     this._commands = new MMLParser(source).parse();
     this._commandIndex = 0;
     this._processedTime = 0;
     this._iterator = null;
-    this._octave = DefaultParams.octave;
-    this._noteLength = [DefaultParams.length];
-    this._velocity = DefaultParams.velocity;
-    this._quantize = DefaultParams.quantize;
-    this._tempo = DefaultParams.tempo;
-    this._key = DefaultParams.key;
-    this._instNumber = DefaultParams.instNumber;
-    this._panpot = DefaultParams.panpot;
+    this._octave = this._defaultParams.octave;
+    this._noteLength = [this._defaultParams.length];
+    this._velocity = this._defaultParams.velocity;
+    this._quantize = this._defaultParams.quantize;
+    this._tempo = this._defaultParams.tempo;
+    this._key = this._defaultParams.key;
+    this._instNumber = this._defaultParams.instNumber;
+    this._panpot = this._defaultParams.panpot;
     this._infiniteLoopIndex = -1;
     this._loopStack = [];
     this._done = false;
@@ -100,7 +104,7 @@ class MMLIterator {
           break;
       }
 
-      const length = elem !== null ? elem : DefaultParams.length;
+      const length = elem !== null ? elem : this._defaultParams.length;
 
       return (60 / this._tempo) * (4 / length);
     });
@@ -117,8 +121,8 @@ class MMLIterator {
     const time = this._processedTime;
     const duration = this._calcDuration(command.noteLength);
     const noteNumbers = command.noteNumbers.map(noteNumber => this._calcNoteNumber(noteNumber));
-    const quantize = this._quantize / DefaultParams.quantizeMax;
-    const velocity = this._velocity / DefaultParams.velocityMax;
+    const quantize = this._quantize / this._defaultParams.quantizeMax;
+    const velocity = this._velocity / this._defaultParams.velocityMax;
     const instNumber = this._instNumber;
     const panpot = this._panpot;
 
@@ -157,7 +161,7 @@ class MMLIterator {
   }
 
   [Syntax.Octave](command) {
-    this._octave = command.value !== null ? command.value : DefaultParams.octave;
+    this._octave = command.value !== null ? command.value : this._defaultParams.octave;
   }
 
   [Syntax.OctaveShift](command) {
@@ -167,21 +171,21 @@ class MMLIterator {
   }
 
   [Syntax.NoteLength](command) {
-    const noteLength = command.noteLength.map(value => value !== null ? value : DefaultParams.length);
+    const noteLength = command.noteLength.map(value => value !== null ? value : this._defaultParams.length);
 
     this._noteLength = noteLength;
   }
 
   [Syntax.NoteVelocity](command) {
-    this._velocity = command.value !== null ? command.value : DefaultParams.velocity;
+    this._velocity = command.value !== null ? command.value : this._defaultParams.velocity;
   }
 
   [Syntax.NoteQuantize](command) {
-    this._quantize = command.value !== null ? command.value : DefaultParams.quantize;
+    this._quantize = command.value !== null ? command.value : this._defaultParams.quantize;
   }
 
   [Syntax.Tempo](command) {
-    this._tempo = command.value !== null ? command.value : DefaultParams.tempo;
+    this._tempo = command.value !== null ? command.value : this._defaultParams.tempo;
   }
 
   [Syntax.KeyChange](command) {
@@ -193,7 +197,7 @@ class MMLIterator {
   }
 
   [Syntax.Panpot](command) {
-    this._panpot = command.value !== null ? ((command.value - 1) - DefaultParams.panpotRange) / DefaultParams.panpotRange : DefaultParams.panpot;
+    this._panpot = command.value !== null ? ((command.value - 1) - this._defaultParams.panpotRange) / this._defaultParams.panpotRange : DefaultParams.panpot;
   }
 
   [Syntax.InfiniteLoop]() {
@@ -201,7 +205,7 @@ class MMLIterator {
   }
 
   [Syntax.LoopBegin](command) {
-    const loopCount = command.value !== null ? command.value : DefaultParams.loopCount;
+    const loopCount = command.value !== null ? command.value : this._defaultParams.loopCount;
     const loopTopIndex = this._commandIndex;
     const loopOutIndex = -1;
 

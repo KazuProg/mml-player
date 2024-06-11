@@ -4,6 +4,12 @@ import reverseOctave from "./reverseOctave";
 
 export default class MMLEmitter extends SeqEmitter {
   constructor(source, config = {}) {
+    config = {
+      reverseOctave: false,
+      defaultParams: {},
+      ...config
+    };
+
     if (config.reverseOctave) {
       source = reverseOctave(source);
     }
@@ -11,7 +17,7 @@ export default class MMLEmitter extends SeqEmitter {
     let tracks = source.replace(/(\/\/.*)/g, "").split(";");
 
     tracks = tracks.filter(source => !!source.trim());
-    tracks = tracks.map(track => new MMLIterator(track, config));
+    tracks = tracks.map(track => new MMLIterator(track, config.defaultParams));
 
     super(tracks, config);
   }
