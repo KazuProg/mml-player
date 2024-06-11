@@ -1,11 +1,8 @@
 # mml-player
-
 > MML(Music Macro Language) Player based on [mohayonao/mml-emitter](https://github.com/mohayonao/mml-emitter) demo
 
 ## Installation
-
 downloads:
-
 - [mml-player.js](./dist/mml-player.js)
 - [mml-player.js.LICENSE.txt](./dist/mml-player.js.LICENSE.txt)
 
@@ -32,15 +29,22 @@ downloads:
 #### Event
 - `onNote`
   - `type: "note"`
+  - `time: number`
   - `playbackTime: number`
   - `trackNumber: number`
   - `noteNumber: number`
   - `duration: number`
   - `velocity: number`
   - `quantize: number`
+  - `slur: Array`
+    - `time: number`
+    - `duration: number`
+    - `noteNumber: number`
+    - `panpot: number`
+  - `instIndex: number`
+  - `panpot: number`
 
 ## Example
-
 To play sound, the user must make a gesture (click, tap, or keystroke) on the page first.
 
 ```js
@@ -54,6 +58,9 @@ player.onNote = e => {
 document.querySelector("#playbtn").addEventListener('click', e => {
   player.play(mml);
 });
+
+// one-liner
+new MMLPlayer().play("cde2");
 ```
 
 ## MML Syntax
@@ -147,6 +154,7 @@ document.querySelector("#playbtn").addEventListener('click', e => {
   - commands after __|__ are skipped in the last loop
   - e.g. `l2 /: [fa>ce] [gb>d] [egb>d] | [ea>c] :/4 [eg>c]`
 
+
 ## See Also
 - MML Emitter
   - [mohayonao/mml-emitter](https://github.com/mohayonao/mml-emitter) / MML(Music Macro Language) Emitter
@@ -156,5 +164,4 @@ document.querySelector("#playbtn").addEventListener('click', e => {
 
 
 ## License
-
 MIT
