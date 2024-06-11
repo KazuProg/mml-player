@@ -13,7 +13,9 @@
 
       let mml = document.querySelector("#mml").value;
 
-      player = new MMLPlayer();
+      player = new MMLPlayer({
+        waitForReady: true
+      });
       player.onNote = e => {
         console.log("NOTE: " + JSON.stringify(e));
       }

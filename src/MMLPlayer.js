@@ -68,6 +68,7 @@ export default class MMLPlayer {
   constructor(config = {}) {
     this.#config = {
       context: audioContext,
+      waitForReady: false,
       mml: null,
       ...config
     };
@@ -78,15 +79,28 @@ export default class MMLPlayer {
   }
 
   play(mml = null) {
-    if (audioContext.state != 'running') {
-      throw new Error("Failed to play sound on MMLPlayer: AudioContext is not ready.");
-    }
-
     mml = mml == null ? this.#config.mml : mml;
     if (mml == null) {
       throw new Error("Failed to execute 'play' on MMLPlayer: mml is null.");
     }
 
+    if (audioContext.state != 'running') {
+      if (this.#config.waitForReady) {
+        const intervalId = setInterval(() => {
+          if (audioContext.state == 'running') {
+            clearInterval(intervalId);
+            this.#play(mml);
+          }
+        });
+        return;
+      }
+      throw new Error("Failed to play sound on MMLPlayer: AudioContext is not ready.");
+    }
+
+    this.#play(mml);
+  }
+
+  #play(mml) {
     this.#emitter = new MMLEmitter(mml, this.#config);
 
     this.#emitter.on("note", e => this.#playNote(e));

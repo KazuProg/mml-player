@@ -10,6 +10,8 @@ downloads:
 ### MMLPlayer
 - `constructor(config: object)`
   - `config.mml: string`
+  - `config.waitForReady: bool`
+    - wait for AudioContext to be ready (user gesture required)
   - `config.reverseOctave: bool`
     - reverse `<` and `>` command
   - `config.defaultParams: object`
