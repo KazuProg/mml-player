@@ -19,7 +19,7 @@ class MMLIterator {
     this._quantize = DefaultParams.quantize;
     this._tempo = DefaultParams.tempo;
     this._key = DefaultParams.key;
-    this._instIndex = DefaultParams.instIndex;
+    this._instNumber = DefaultParams.instNumber;
     this._panpot = DefaultParams.panpot;
     this._infiniteLoopIndex = -1;
     this._loopStack = [];
@@ -117,9 +117,9 @@ class MMLIterator {
     const time = this._processedTime;
     const duration = this._calcDuration(command.noteLength);
     const noteNumbers = command.noteNumbers.map(noteNumber => this._calcNoteNumber(noteNumber));
-    const quantize = this._quantize;
-    const velocity = this._velocity;
-    const instIndex = this._instIndex;
+    const quantize = this._quantize / DefaultParams.quantizeMax;
+    const velocity = this._velocity / DefaultParams.velocityMax;
+    const instNumber = this._instNumber;
     const panpot = this._panpot;
 
     this._processedTime = this._processedTime + duration;
@@ -146,7 +146,7 @@ class MMLIterator {
     }
 
     return arrayToIterator(noteNumbers.map((noteNumber) => {
-      return { type, time, duration, noteNumber, velocity, quantize, slur, instIndex, panpot };
+      return { type, time, duration, noteNumber, velocity, quantize, slur, instNumber, panpot };
     }));
   }
 
@@ -185,11 +185,11 @@ class MMLIterator {
   }
 
   [Syntax.KeyChange](command) {
-    this._key = command.value !== null ? this._key + command.value : DefaultParams.key;
+    this._key += command.value;
   }
 
   [Syntax.InstChange](command) {
-    this._instIndex = command.value !== null ? command.value : DefaultParams.instIndex;
+    this._instNumber = command.value;
   }
 
   [Syntax.Panpot](command) {

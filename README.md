@@ -11,10 +11,10 @@ downloads:
 - `constructor(mml = null)`
 
 #### Instance methods
-- `setInst(index, inst): void`
+- `setInst(no, inst): void`
   - set custom instrument
-  - `index`: int
-    - instrument index (@{index})
+  - `no`: int
+    - instrument number (@{index})
   - `inst`: PeriodicWave
   - `inst`: Array
     - the values of one cycle of the audio waveform
@@ -34,15 +34,15 @@ downloads:
   - `trackNumber: number`
   - `noteNumber: number`
   - `duration: number`
-  - `velocity: number`
-  - `quantize: number`
+  - `velocity: number(0 - 1)`
+  - `quantize: number(0 - 1)`
   - `slur: Array`
     - `time: number`
     - `duration: number`
     - `noteNumber: number`
-    - `panpot: number`
-  - `instIndex: number`
-  - `panpot: number`
+    - `panpot: number(-1 - 1)`
+  - `instNumber: number`
+  - `panpot: number(-1 - 1)`
 
 ## Example
 To play sound, the user must make a gesture (click, tap, or keystroke) on the page first.

@@ -10,9 +10,9 @@ const instList = {
   3: "triangle"
 };
 
-const setInst = (index, inst) => {
+const setInst = (no, inst) => {
   if (typeof inst === "string") {
-    instList[index] = inst;
+    instList[no] = inst;
     return;
   }
 
@@ -48,7 +48,7 @@ const setInst = (index, inst) => {
   }
 
   if (inst instanceof PeriodicWave) {
-    instList[index] = inst;
+    instList[no] = inst;
   } else {
     throw new Error("setInst: Unsupported argument");
   }
@@ -69,8 +69,8 @@ export default class MMLPlayer {
     this.#mml = typeof mml === 'string' ? mml : null;
   }
 
-  static setInst(index, inst) {
-    setInst(index, inst);
+  static setInst(no, inst) {
+    setInst(no, inst);
   }
 
   play(mml = null) {
@@ -110,13 +110,13 @@ export default class MMLPlayer {
     const t0 = note.playbackTime;
     let t1 = t0;
     let t2 = note.duration;
-    const vol = note.velocity / 128;
+    const vol = note.velocity;
     const osc = audioContext.createOscillator();
     const amp = audioContext.createGain();
     const pan = audioContext.createStereoPanner();
 
-    if (note.instIndex in instList) {
-      const inst = instList[note.instIndex];
+    if (note.instNumber in instList) {
+      const inst = instList[note.instNumber];
       if (typeof inst === "string") {
         osc.type = inst;
       }
@@ -124,7 +124,7 @@ export default class MMLPlayer {
         osc.setPeriodicWave(inst);
       }
     } else {
-      console.warn(`Undefined inst index: ${note.instIndex}`);
+      console.warn(`Undefined inst number: ${note.instNumber}`);
     }
 
     osc.frequency.setValueAtTime(mtof(note.noteNumber), t0);
@@ -136,7 +136,7 @@ export default class MMLPlayer {
       pan.pan.linearRampToValueAtTime(note.slur[i].panpot, t1);
     }
 
-    t2 = t1 + t2 * (note.quantize / 100);
+    t2 = t1 + t2 * note.quantize;
     osc.start(t0);
     osc.stop(t2);
     osc.connect(amp);
