@@ -1,5 +1,5 @@
 {
-  "name": "mml-player",
+  "name": "@kazuprog/mml-player",
   "version": "1.0.0",
   "description": "MML(Music Macro Language) player for Web Audio API",
   "main": "index.js",
@@ -22,6 +22,9 @@
     "url": "https://github.com/KazuProg/mml-player/issues"
   },
   "homepage": "https://kazuprog.work/prog/js/mml-player/",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "mml-iterator": "^1.1.0",
     "seq-emitter": "^1.2.0"
